@@ -33,3 +33,22 @@ Una vez restablecida la red, procedimos a la instalación del servidor web:
 Comprobamos que el servicio está activo y funcionando correctamente:
 
 ![Captura-2.png)
+
+## 4. Gestión de Usuarios y Contraseñas
+Para habilitar la autenticación básica, es necesario tener un archivo de credenciales independiente de la configuración web. Hemos generado este archivo en la ruta `/etc/nginx/.htpasswd`.
+
+**Usuarios creados:**
+* `david`
+* `martinez`
+
+Hemos utilizado `openssl` con el algoritmo MD5 (`-apr1`) para cifrar las contraseñas, garantizando que no se almacenen en texto plano.
+
+**Comandos ejecutados:**
+1.  `sudo sh -c "echo -n 'david:' >> /etc/nginx/.htpasswd"`
+2.  `sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"`
+3.  *(Proceso repetido para el usuario 'martinez')*
+
+**Verificación:**
+Como se observa en la captura, el archivo contiene los nombres de usuario seguidos de sus contraseñas hash:
+
+![Captura-3)

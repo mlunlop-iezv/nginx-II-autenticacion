@@ -52,7 +52,7 @@ Al intentar acceder a la IP del servidor web, el navegador solicita credenciales
 
 * **Acceso Exitoso:** Al introducir las credenciales válidas, accedemos a la portada de "Perfect Learn".
 
-![Acceso correcto a la web](img/Captura-7.jpg)
+![Acceso correcto a la web](img/Captura-7.png)
 
 ### 4.2. Análisis de Logs
 Inspeccionamos los registros de Nginx para confirmar los eventos de acceso. Se observan intentos fallidos (código **401** y errores de "password mismatch") seguidos de accesos exitosos (código **200**).
@@ -66,10 +66,10 @@ Modificamos la configuración para que el sitio sea público por defecto, proteg
 
 **Pruebas:**
 1.  **Home (Pública):** La página de inicio carga directamente sin solicitar contraseña.
-    ![Home pública](img/Captura-9.jpg)
+    ![Home pública](img/Captura-9.png)
 
 2.  **Contacto (Privada):** Al navegar específicamente a la sección "Contact Us", salta la ventana de autenticación.
-    ![Login solo en contacto](img/Captura-10.jpg)
+    ![Login solo en contacto](img/Captura-10.png)
 
 ### 5.1. Detalle de la Configuración Selectiva
 Para lograr el comportamiento mostrado anteriormente (donde solo se pide contraseña en "Contacto"), hemos modificado el archivo `/etc/nginx/sites-available/default`.
@@ -116,4 +116,4 @@ Esta directiva obliga al cliente a cumplir **TODAS** las condiciones de segurida
 **Resultado Final:**
 Tras aplicar todas las capas de seguridad y reiniciar el servicio, verificamos que la plataforma "Perfect Learn" carga correctamente y es accesible cumpliendo los requisitos establecidos.
 
-![Web operativa final](img/Captura-15.jpg)
+![Web operativa final](img/Captura-15.png)

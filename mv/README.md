@@ -1,54 +1,76 @@
 # Práctica 2.2: Autenticación en Nginx (Parte Servidor)
 **Alumno:** David Martínez Alcázar
+**Asignatura:** Despliegue de Aplicaciones Web
 
 ## 1. Preparación del Entorno
-Hemos comenzado clonando el repositorio compartido de la práctica anterior.
-Para mantener el flujo de trabajo colaborativo, he creado una rama específica llamada `david-nginx`.
-
-### Clonado del repositorio
-Comando utilizado: `git clone https://github.com/mlunlop-iezv/nginx-ll-autenticacion.git`
+Hemos comenzado clonando el repositorio compartido de la práctica anterior. Para mantener el flujo de trabajo colaborativo y no interferir con la parte de Docker de mi compañero, he creado una rama específica.
 
 ### Creación de la rama de trabajo
-Para aislar mi desarrollo del de mi compañero, creo una nueva rama:
-Comando: `git checkout -b david-nginx`
+Comando utilizado: `git checkout -b david-nginx`
 
-![Captura-1.png]
+![Creación de rama](Captura-1.png)
 
 ### Despliegue de la Máquina Virtual
-Hemos migrado el archivo de configuración `Vagrantfile` de la práctica anterior a este repositorio.
-Para levantar el servidor de desarrollo, ejecutamos el comando: `vagrant up`.
+Hemos migrado el archivo de configuración `Vagrantfile` y la carpeta `html` de la práctica anterior a este repositorio. Para levantar el servidor, ejecutamos `vagrant up`.
 
-## 2. Instalación y Configuración de Red del Servidor
-Al iniciar la máquina virtual nueva, nos encontramos con problemas de conectividad que impedían la descarga de paquetes.
+---
 
-**Solución aplicada:**
-Se configuró manualmente el servidor DNS de Google para restablecer la conexión a internet:
+## 2. Instalación y Configuración de Red
+Al iniciar la máquina virtual nueva (Debian Bullseye), realizamos la instalación del servidor Nginx. Previamente, fue necesario configurar el DNS (`nameserver 8.8.8.8`) para asegurar la conectividad y poder descargar los paquetes.
 
-**Instalación de Nginx:**
-Una vez restablecida la red, procedimos a la instalación del servidor web:
+**Comandos:**
 1. `sudo apt update`
 2. `sudo apt install nginx -y`
 
 **Verificación:**
-Comprobamos que el servicio está activo y funcionando correctamente:
+Comprobamos que el servicio está activo (`running`):
 
-![Captura-2.png)
+![Estado de Nginx activo](Captura-2.png)
 
-## 4. Gestión de Usuarios y Contraseñas
-Para habilitar la autenticación básica, es necesario tener un archivo de credenciales independiente de la configuración web. Hemos generado este archivo en la ruta `/etc/nginx/.htpasswd`.
+---
+
+## 3. Gestión de Usuarios y Contraseñas
+Para habilitar la autenticación básica, generamos un archivo de credenciales independiente en `/etc/nginx/.htpasswd`.
 
 **Usuarios creados:**
 * `david`
 * `martinez`
 
-Hemos utilizado `openssl` con el algoritmo MD5 (`-apr1`) para cifrar las contraseñas, garantizando que no se almacenen en texto plano.
+Hemos utilizado `openssl` con el algoritmo MD5 (`-apr1`) para cifrar las contraseñas.
 
-**Comandos ejecutados:**
-1.  `sudo sh -c "echo -n 'david:' >> /etc/nginx/.htpasswd"`
-2.  `sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"`
-3.  *(Proceso repetido para el usuario 'martinez')*
+**Verificación del fichero cifrado:**
+Como se observa en la captura, el archivo contiene los usuarios y sus hashes:
 
-**Verificación:**
-Como se observa en la captura, el archivo contiene los nombres de usuario seguidos de sus contraseñas hash:
+![Creación de usuarios htpasswd](Captura-3.png)
 
-![Captura-3)
+---
+
+## 4. Configuración del Virtual Host
+Editamos el archivo de configuración `/etc/nginx/sites-available/default` para aplicar dos cambios fundamentales:
+1.  **Ruta del sitio:** Cambiamos `root` a `/vagrant/html` para servir nuestra web compartida.
+2.  **Seguridad:** Añadimos `auth_basic` y `auth_basic_user_file` dentro del bloque `location /`.
+
+**Validación de sintaxis:**
+Antes de reiniciar, comprobamos que la configuración es correcta con `sudo nginx -t`:
+
+![Test de configuración Nginx](Captura-4.png)
+
+---
+
+## 5. Verificación y Pruebas de Acceso
+Tras reiniciar el servicio (`sudo systemctl restart nginx`), realizamos la batería de pruebas desde el navegador de la máquina anfitriona (Mac).
+
+**Prueba 1: Solicitud de credenciales**
+Al intentar acceder a la IP del servidor (`192.168.56.8`), Nginx intercepta la petición y muestra la ventana de autenticación:
+
+![Ventana de Login](Captura-5.png)
+
+**Prueba 2: Error de Autenticación (401)**
+Si cancelamos el login o introducimos credenciales erróneas, el servidor deniega el acceso con un error **401 Authorization Required**:
+
+![Error 401](Captura-6.png)
+
+**Prueba 3: Acceso Concedido**
+Finalmente, al introducir las credenciales correctas del usuario `david`, el servidor autoriza la entrada y carga la web "Perfect Learn":
+
+![Acceso exitoso a la web](Captura-7.jpg)

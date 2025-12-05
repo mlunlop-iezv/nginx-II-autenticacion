@@ -74,3 +74,17 @@ Si cancelamos el login o introducimos credenciales erróneas, el servidor denieg
 Finalmente, al introducir las credenciales correctas del usuario `david`, el servidor autoriza la entrada y carga la web "Perfect Learn":
 
 ![Acceso exitoso a la web](Captura-7.jpg)
+
+## 7. Análisis de Logs (Tarea 2.1)
+Siguiendo las instrucciones, hemos verificado cómo registra Nginx los intentos de acceso. Hemos filtrado el log para excluir las imágenes y ver claramente los códigos de estado.
+
+**Evidencia de Logs:**
+En la captura adjunta podemos observar:
+
+1.  **En `access.log` (Parte superior):**
+    * **Código 401:** Intento de acceso denegado ("Authorization Required").
+    * **Código 200:** Acceso exitoso del usuario `david`.
+2.  **En `error.log` (Parte inferior):**
+    * Mensaje técnico: `user "david": password mismatch`.
+
+![Logs filtrados mostrando error 401 y éxito 200](Captura-8.png)

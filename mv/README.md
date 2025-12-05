@@ -88,3 +88,11 @@ En la captura adjunta podemos observar:
     * Mensaje técnico: `user "david": password mismatch`.
 
 ![Logs filtrados mostrando error 401 y éxito 200](Captura-8.png)
+
+## 9. Restricción de Acceso por IP (Tarea 3.1)
+Hemos configurado Nginx para denegar explícitamente el acceso a la IP de la máquina anfitriona (`192.168.56.1`), independientemente de si el usuario tiene credenciales o no.
+
+**Configuración aplicada en `location /`:**
+```nginx
+deny 192.168.56.1;
+# allow all; (implícito)

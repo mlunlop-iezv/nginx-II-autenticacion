@@ -79,8 +79,8 @@ He realizado pruebas de acceso para verificar que los eventos quedan registrados
 
  #### 2. Accedí correctamente con mi usuario "luna".
 
-Para ver estos registros ejecute:
-* Comando: `docker logs nginx-mario`
+ Para ver estos registros ejecute:
+  * Comando: `docker logs nginx-mario`
 
  <img src="img/9.png" />
 
@@ -90,21 +90,21 @@ Para ver estos registros ejecute:
 
 Siguiendo los requisitos, he modificado la configuración para que la portada sea pública y solo la sección de contacto requiera contraseña.
 
-#### 1. Edición de conf/mario.test.conf
+ #### 1. Edición de conf/mario.test.conf
 
-He separado la configuración en dos bloques:
+ He separado la configuración en dos bloques:
 
-<img src="img/10.png" />
+ <img src="img/10.png" />
 
-#### 2. Aplicación de cambios
+ #### 2. Aplicación de cambios
 
-He reiniciado el contenedor para aplicar la nueva configuración:
+ He reiniciado el contenedor para aplicar la nueva configuración:
 
-<img src="img/11.png" />
+ <img src="img/11.png" />
 
-Ahora al meterme el contact me pide los creedenciales
+ Ahora al meterme el contact me pide los creedenciales
 
-<img src="img/12.png" />
+ <img src="img/12.png" />
 
 ---
 

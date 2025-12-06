@@ -30,7 +30,6 @@ Para habilitar la autenticación, necesito un archivo .htpasswd con las credenci
 ### 2.2. Generación del archivo htpasswd
 
 He generado el hash para mi usuario "mario" y posteriormente he repetido el proceso para el usuario "luna"
-* Comando: `docker run --rm stakater/ssl-certs-generator openssl passwd -apr1 'mi_password'`
 
 <img src="img/3.png" />
 
@@ -42,7 +41,37 @@ He creado manualmente el archivo conf/htpasswd pegando los hashes generados para
 
 ---
 
-## 3. Configuración Inicial de Nginx
+## 3. Configuración de Nginx
+
+He procedido a configurar el servidor creando mi propio archivo .conf para definir las reglas de acceso.
+
+### 3.1. Archivo conf/mario.test.conf
+
+He configurado el bloque server para proteger todo el directorio raíz con contraseña
+
+<img src="img/5.png" />
+
+### 3.2. Despliegue del contenedor:
+
+He levantado el contenedor, al que he llamado docker, montando los volúmenes necesarios para vincular mis archivos locales.
+
+<img src="img/6.png" />
+
+### Prueba: 
+
+Al acceder a http://localhost:8080, el navegador me solicita unos credenciales para acceder
+
+<img src="img/7.png" />
+
+ > Ahora ingresaremos los creedecniales correcto usuario 'mario' contraseña 'mario123'
+
+<img src="img/8.png" />
+
+---
+
+## 4 Tareas
+
+###4.1
 
 **Resultado Final:**
 

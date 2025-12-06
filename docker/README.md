@@ -75,9 +75,9 @@ Al acceder a http://localhost:8080, el navegador me solicita unos credenciales p
 
 He realizado pruebas de acceso para verificar que los eventos quedan registrados.
 
-#### 1. Intenté entrar con un usuario inválido.
+ #### 1. Intenté entrar con un usuario inválido.
 
-#### 2. Accedí correctamente con mi usuario "luna".
+ #### 2. Accedí correctamente con mi usuario "luna".
 
 Para ver estos registros ejecute:
 * Comando: `docker logs nginx-mario`
@@ -106,7 +106,25 @@ Ahora al meterme el contact me pide los creedenciales
 
 <img src="img/12.png" />
 
+---
 
-**Resultado Final:**
+## 5 Restriccion por IP
 
-![Web operativa final](img/Captura-15.png)
+Finalmente, he implementado seguridad basada en la dirección IP. Primero identifiqué mi IP en los logs (ej: 172.17.0.1)
+
+### 5.1. Bloqueo de IP (Tarea 3.1)
+
+He configurado Nginx para denegar el acceso a mi propia IP y permitir el resto, comprobando que recibo un error 403 Forbidden
+
+<img src="img/13.png" />
+
+<img src="img/14.png" />
+
+### 5.2. Combinación IP + Usuario (Tarea 3.2)
+
+Para la configuración final, he utilizado la directiva satisfy all, obligando a cumplir ambas condiciones: tener la IP permitida Y tener usuario/contraseña.
+
+<img src="img/15.png" />
+
+**Resultados:** Con esta configuración, he verificado que solo puedo acceder si me conecto desde la IP autorizada y además introduzco mis credenciales correctamente
+
